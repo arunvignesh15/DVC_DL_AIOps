@@ -17,7 +17,7 @@ def create_and_save_tensorboard_callback(callbacks_dir,tensorboard_log_dir):
     logging.info(f"Tensorboard callback is being saved at {tb_callbacks_filepath}")
 
 def create_and_save_checkpoint_callback(callbacks_dir,checkpoint_dir):
-    checkpoint_file_path =os.path(checkpoint_dir,"ckpt_model.h5")
+    checkpoint_file_path =os.path.join(checkpoint_dir,"ckpt_model.h5")
     checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_file_path,
                                                             save_best_only=True
                                                             )
