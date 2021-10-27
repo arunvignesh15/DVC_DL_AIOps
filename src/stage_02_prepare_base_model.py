@@ -6,6 +6,7 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
+import io
 
 logging_str ="[%(asctime)s: %(levelname)s: %(module)s]: %(message)s]"
 log_dir="logs"
@@ -39,7 +40,14 @@ def prepare_base_model(config_path,params_path):
     )
 
     updated_base_model_path= os.path.join(base_model_dir_path,artifacts["UPDATED_BASE_MODEL_NAME"])
-    logging.info(f"Model Summary : \n\n {full_model.summary()}")
+
+    def _log_model_summary(model):
+        with io.StringIO() as stream:
+            model.summary(print_fn=lambda x: stream.write(f"{x}\n"))
+            summary_str = stream.getvalue()
+        return summary_str
+        
+    logging.info(f"Full Model Summary : \n\n {_log_model_summary(full_model)}")
     full_model.save(updated_base_model_path)
 
 
